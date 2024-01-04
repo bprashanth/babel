@@ -1,0 +1,25 @@
+{
+  "name": "babel",
+  "version": "1.0.0",
+  "description": "YouTube translator",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bprashanth/babel.git"
+  },
+  "keywords": [
+    "translate"
+  ],
+  "author": "bprashanth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bprashanth/babel/issues"
+  },
+  "homepage": "https://github.com/bprashanth/babel#readme",
+  "dependencies": {
+    "ytdl-core": "^4.11.5"
+  }
+}
