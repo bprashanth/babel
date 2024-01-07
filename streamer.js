@@ -1,35 +1,23 @@
-// Install the library (if not already installed): npm install ytdl-core@4.11.5
-const ytdl = require('youtube-dl-core');
+const hostname = '127.0.0.1'; // Localhost
+const port = 3000; // Default port
 
-function playAudioFromYouTube() {
-  const youtubeLink = document.getElementById('youtubeLink').value;
-  const statusElement = document.getElementById('status');
-
-  try {
+function streamAudioFromYouTube() {
+  const link = document.getElementById('youtubeLink').value;
+  fetch(`http://${hostname}:${port}/stream`, {
+    method: 'POST',
+    body: new URLSearchParams({url: link})
+  })
+  .then(response => response.blob())
+  .then(blob => {
     const audio = document.createElement('audio');
-    const stream = ytdl(youtubeLink, { quality: 'highestaudio', filter: 'audioonly' });
-
-    stream.on('info', info => {
-      console.log('Available formats:', info.formats);
-      console.log('Selected format:', info.format);
-      statusElement.textContent = 'Loading audio...';
-    });
-
-    stream.on('error', error => {
-      console.error('Error:', error);
-      statusElement.textContent = 'Error loading audio!';
-    });
-
-    stream.pipe(audio);
+    audio.src = URL.createObjectURL(blob);
+    audio.setAttribute("controls", "controls");
+    document.body.appendChild(audio);
     audio.play();
-    statusElement.textContent = 'Playing audio...';
-  } catch (error) {
-    console.error('Error:', error);
-    statusElement.textContent = 'Error playing audio!';
-  }
+  });
 }
 
-document.getElementById('playAudioButton').addEventListener('click', playAudioFromYouTube);
+document.getElementById('playAudioButton').addEventListener('click', streamAudioFromYouTube);
 // () => {
 //   console.log('button clicked!')
 //   document.getElementById('message').textContent = 'Button clicked!';
